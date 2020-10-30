@@ -55,6 +55,8 @@ public class WidgetController {
     return service.findWidgetById(widgetId);
   }
 
+  // request annotation allows us to extract things that are coming into the HTTP body as a JSON object
+  // and parse it and try to instantiate a java object that is equivalent to the body
   @PostMapping("/api/topics/{topicId}/widgets")
   public Widget createWidgetForTopic(
           @PathVariable("topicId") String topicId,
@@ -71,8 +73,10 @@ public class WidgetController {
   }
 
   @DeleteMapping("/api/widgets/{wid}")
-  public Integer deleteWidget(String widgetId) {
-    return null;
+  public Integer deleteWidget(
+          @PathVariable("wid") String widgetId) {
+    // delegating the work to the service
+    return service.deleteWidget(widgetId);
   }
 
   @PutMapping("/api/widgets/{wid}")

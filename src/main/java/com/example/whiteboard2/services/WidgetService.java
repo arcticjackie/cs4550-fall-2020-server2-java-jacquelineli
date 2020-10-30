@@ -61,14 +61,20 @@ public class WidgetService {
   public Widget createWidget(
           @RequestBody Widget widget) {
     // making the date the id for now until the DB can do it for us
-    String newId = (new Date()).toString();
+    String newId = String.valueOf(new Date().getTime());
     widget.setId(newId);
     widgets.add(widget);
-    return null;
+    return widget;
   }
 
-  public Integer deleteWidget(String widgetId) {
-    return null;
+  public Integer deleteWidget(
+          @PathVariable("wid") String widgetId) {
+    Widget widgetToRemove = findWidgetById(widgetId);
+    // remove is a boolean method, if successful return 1, else return 0
+    if (widgets.remove(widgetToRemove)) {
+      return 1;
+    }
+    return 0;
   }
 
   public Integer updateWidget(String widgetId, Widget newWidget) {
