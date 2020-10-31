@@ -80,8 +80,10 @@ public class WidgetController {
   }
 
   @PutMapping("/api/widgets/{wid}")
-  public Integer updateWidget(String widgetId, Widget newWidget) {
-    return null;
+  public Integer updateWidget(
+          @PathVariable("wid") String widgetId,
+          @RequestBody Widget newWidget) {
+    return service.updateWidget(widgetId, newWidget);
   }
 
 }

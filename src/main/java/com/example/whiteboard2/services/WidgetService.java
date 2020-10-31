@@ -77,7 +77,21 @@ public class WidgetService {
     return 0;
   }
 
-  public Integer updateWidget(String widgetId, Widget newWidget) {
-    return null;
+  public Integer updateWidget(
+          @PathVariable("wid") String widgetId,
+          @RequestBody Widget newWidget) {
+    // if there is a widget found in the widgets
+    if (findWidgetById(widgetId) != null) {
+      findWidgetById(widgetId).setClassName(newWidget.getClassName());
+      findWidgetById(widgetId).setName(newWidget.getName());
+      findWidgetById(widgetId).setHtml(newWidget.getHtml());
+      findWidgetById(widgetId).setId(newWidget.getId());
+      findWidgetById(widgetId).setSrc(newWidget.getSrc());
+      findWidgetById(widgetId).setType(newWidget.getType());
+      findWidgetById(widgetId).setHeight(newWidget.getHeight());
+      findWidgetById(widgetId).setWidth(newWidget.getWidth());
+      return 1;
+    }
+    return 0;
   }
 }
