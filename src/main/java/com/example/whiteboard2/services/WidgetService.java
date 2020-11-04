@@ -14,7 +14,8 @@ import java.util.List;
 public class WidgetService {
 
   // we're going to use some static code for rn
-  List<Widget> widgets = new ArrayList<Widget>();
+  List<Widget> widgets = new ArrayList<>();
+
   {
     widgets.add(new Widget("123", "HEADING", "Widget 1", "topic123"));
     widgets.add(new Widget("234", "PARAGRAPH", "Widget 2", "topic123"));
@@ -50,7 +51,7 @@ public class WidgetService {
 
   public Widget findWidgetById(
           @PathVariable("wid") String widgetId) {
-    for (Widget w: widgets) {
+    for (Widget w : widgets) {
       if (w.getId().equals(widgetId)) {
         return w;
       }
@@ -77,21 +78,82 @@ public class WidgetService {
     return 0;
   }
 
-  public Integer updateWidget(
-          @PathVariable("wid") String widgetId,
-          @RequestBody Widget newWidget) {
-    // if there is a widget found in the widgets
-    if (findWidgetById(widgetId) != null) {
-      findWidgetById(widgetId).setClassName(newWidget.getClassName());
-      findWidgetById(widgetId).setName(newWidget.getName());
-      findWidgetById(widgetId).setHtml(newWidget.getHtml());
-      findWidgetById(widgetId).setId(newWidget.getId());
-      findWidgetById(widgetId).setSrc(newWidget.getSrc());
-      findWidgetById(widgetId).setType(newWidget.getType());
-      findWidgetById(widgetId).setHeight(newWidget.getHeight());
-      findWidgetById(widgetId).setWidth(newWidget.getWidth());
-      return 1;
+  public Integer updateWidget(String widgetId, Widget newWidget) {
+    for (Widget widget : widgets) {
+      if (widget.getId().equals(widgetId)) {
+        System.out.println(newWidget.getName());
+        widget.setName(newWidget.getName());
+        widget.setText(newWidget.getText());
+        widget.setType(newWidget.getType());
+        if (newWidget.getType().equals("HEADING")) {
+          widget.setSize(newWidget.getSize());
+        }
+        return 1;
+      }
     }
     return 0;
   }
+
+//}
+
+  public List<Widget> moveWidgetUp(String widgetId, String direction) {
+    int index = 0;
+    for (int i = 0; i < widgets.size(); i++) {
+      if (widgets.get(i).getId().equals(widgetId)) {
+        index = i;
+      }
+    }
+    if (direction.equals("UP")) {
+      if (index > 0) {
+        // w is the widget we want to shift upwards
+//        Widget widgetToMoveUpward = widgets.get(index);
+        String name = widgets.get(index).getName();
+        String text = widgets.get(index).getText();
+        String type = widgets.get(index).getType();
+
+        // set the fields of the one we want to shift upwarsd with the one above it
+        widgets.get(index).setName(widgets.get(index - 1).getName());
+        widgets.get(index).setText(widgets.get(index - 1).getText());
+        widgets.get(index).setType(widgets.get(index - 1).getType());
+
+        widgets.get(index - 1).setName(name);
+        widgets.get(index - 1).setText(text);
+        widgets.get(index - 1).setType(type);
+      }
+    }
+    else {
+      if (index < widgets.size()) {
+        // w is the widget we want to shift upwards
+        Widget widgetToMoveDownward = widgets.get(index);
+
+        String name = widgets.get(index).getName();
+        String text = widgets.get(index).getText();
+        String type = widgets.get(index).getType();
+
+        // set the fields of the one we want to shift upwarsd with the one above it
+        widgets.get(index).setName(widgets.get(index + 1).getName());
+        widgets.get(index).setText(widgets.get(index + 1).getText());
+        widgets.get(index).setType(widgets.get(index + 1).getType());
+
+        widgets.get(index + 1).setName(name);
+        widgets.get(index + 1).setText(text);
+        widgets.get(index + 1).setType(type);
+      }
+    }
+    return widgets;
+  }
 }
+    // if there is a widget found in the widgets
+//    Widget widget = findWidgetById(widgetId);
+//    if (widget != null) {
+////      findWidgetById(widgetId).setClassName(newWidget.getClassName());
+//      widget.setName(newWidget.getName());
+//      findWidgetById(widgetId).setHtml(newWidget.getHtml());
+//      findWidgetById(widgetId).setId(newWidget.getId());
+//      findWidgetById(widgetId).setSrc(newWidget.getSrc());
+//      findWidgetById(widgetId).setType(newWidget.getType());
+//      findWidgetById(widgetId).setHeight(newWidget.getHeight());
+//      findWidgetById(widgetId).setWidth(newWidget.getWidth());
+//      findWidgetById(widgetId).setSize(newWidget.getSize());
+//      findWidgetById(widgetId).setText(newWidget.getText());
+

@@ -86,4 +86,18 @@ public class WidgetController {
     return service.updateWidget(widgetId, newWidget);
   }
 
+
+  @GetMapping("/api/widgets/{wid}/{direction}")
+  public List<Widget> moveWidgetUp(
+          @PathVariable("wid") String widgetId,
+          @PathVariable("direction") String direction
+  ) {
+    return service.moveWidgetUp(widgetId, direction);
+//    return 1;
+  }
+
+  // wrote somethig on th e sever that swpas element
+  //if u call a certain url w a certain widget, then either up or down changes th order of thw ei widget
+  // th ebutton is attach to calling that end point
+
 }

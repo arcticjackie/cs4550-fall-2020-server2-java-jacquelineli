@@ -13,10 +13,12 @@ public class Widget {
   private String className;
   private Integer height;
   private Integer width;
+  private String text;
+  private Integer size;
+
 
   // each widget will know whcih topic it belogs to
   private String topicId;
-
 
 
   public Widget(String id, String type, String name) {
@@ -30,6 +32,27 @@ public class Widget {
     this.type = type;
     this.name = name;
     this.topicId = topicId;
+    this.size = 2;
+  }
+
+  public Widget() {
+
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public Integer getSize() {
+    return size;
+  }
+
+  public void setSize(Integer size) {
+    this.size = size;
   }
 
   public String getTopicId() {
@@ -38,10 +61,6 @@ public class Widget {
 
   public void setTopicId(String topicId) {
     this.topicId = topicId;
-  }
-
-  public Widget() {
-
   }
 
   public String getId() {
