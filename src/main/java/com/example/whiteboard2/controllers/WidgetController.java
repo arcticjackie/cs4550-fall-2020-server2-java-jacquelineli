@@ -3,6 +3,7 @@ package com.example.whiteboard2.controllers;
 import com.example.whiteboard2.models.Widget;
 import com.example.whiteboard2.services.WidgetService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -26,9 +25,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class WidgetController {
 
-  // we're going to use some static code for rn placed in Widget Service
-  // controller only deals with interface of HTTP
-  WidgetService service = new WidgetService();
+  @Autowired
+  WidgetService service;// = new WidgetService();
+
 
   // provide CRUD operations
   // http://localhost:8080/find/all/widgets => returns the jsons of the items in the array above
@@ -51,37 +50,40 @@ public class WidgetController {
 
   @GetMapping("/api/widgets/{wid}")
   public Widget findWidgetById(
-          @PathVariable("wid") String widgetId) {
+          @PathVariable("wid") Integer widgetId) {
     return service.findWidgetById(widgetId);
   }
 
   // request annotation allows us to extract things that are coming into the HTTP body as a JSON object
   // and parse it and try to instantiate a java object that is equivalent to the body
   @PostMapping("/api/topics/{topicId}/widgets")
-  public Widget createWidgetForTopic(
-          @PathVariable("topicId") String topicId,
+  public Widget createWidget(
+          @PathVariable("topicId") String tid,
           @RequestBody Widget widget) {
-    widget.setTopicId(topicId);
+    widget.setTopicId(tid);
     return service.createWidget(widget);
   }
 
-  @PostMapping("/api/widgets")
-  public Widget createWidget(
-          @RequestBody Widget widget) {
-    // making the date the id for now until the DB can do it for us
-    return service.createWidget(widget);
-  }
+////  @PostMapping("/api/topics/{topicId}/widgets")
+//@PostMapping("/api/widgets")
+//public Widget createWidget(
+////          @PathVariable("topicId") String topicId,
+//          @RequestBody Widget widget) {
+//    // making the date the id for now until the DB can do it for us
+////    widget.setTopicId(topicId);
+//    return service.createWidget(widget);
+//  }
 
   @DeleteMapping("/api/widgets/{wid}")
-  public Integer deleteWidget(
-          @PathVariable("wid") String widgetId) {
+  public void deleteWidget(
+          @PathVariable("wid") Integer widgetId) {
     // delegating the work to the service
-    return service.deleteWidget(widgetId);
+    service.deleteWidget(widgetId);
   }
 
   @PutMapping("/api/widgets/{wid}")
-  public Integer updateWidget(
-          @PathVariable("wid") String widgetId,
+  public Widget updateWidget(
+          @PathVariable("wid") Integer widgetId,
           @RequestBody Widget newWidget) {
     return service.updateWidget(widgetId, newWidget);
   }

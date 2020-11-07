@@ -4,8 +4,22 @@ package com.example.whiteboard2.models;
 // perhaps we wanna keep track of type of widget
 // and the name of the widget
 
+// 1. declare our intent that our fields should be mapped, by using annotation Entity
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.*;
+
+
+@Entity
+@Table(name="widgets")
 public class Widget {
-  private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
   private String type;
   private String name;
   private String src;
@@ -15,19 +29,21 @@ public class Widget {
   private Integer width;
   private String text;
   private Integer size;
-
-
   // each widget will know whcih topic it belogs to
   private String topicId;
+  private String widgetOrder;
+  private String cssClass;
+  private String style;
+  private String value;
 
 
-  public Widget(String id, String type, String name) {
+  public Widget(Integer id, String type, String name) {
     this.id = id;
     this.type = type;
     this.name = name;
   }
 
-  public Widget(String id, String type, String name, String topicId) {
+  public Widget(Integer id, String type, String name, String topicId) {
     this.id = id;
     this.type = type;
     this.name = name;
@@ -63,14 +79,13 @@ public class Widget {
     this.topicId = topicId;
   }
 
-  public String getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Integer id) {
     this.id = id;
   }
-
 
   public String getType() {
     return type;
@@ -128,5 +143,35 @@ public class Widget {
     this.width = width;
   }
 
+  public String getWidgetOrder() {
+    return widgetOrder;
+  }
 
+  public void setWidgetOrder(String widgetOrder) {
+    this.widgetOrder = widgetOrder;
+  }
+
+  public String getCssClass() {
+    return cssClass;
+  }
+
+  public void setCssClass(String cssClass) {
+    this.cssClass = cssClass;
+  }
+
+  public String getStyle() {
+    return style;
+  }
+
+  public void setStyle(String style) {
+    this.style = style;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
 }
