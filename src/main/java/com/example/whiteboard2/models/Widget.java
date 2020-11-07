@@ -23,8 +23,8 @@ public class Widget {
   private String type;
   private String name;
   private String src;
-  private String html;
-  private String className;
+//  private String html;
+//  private String className;
   private Integer height;
   private Integer width;
   private String text;
@@ -110,22 +110,22 @@ public class Widget {
   public void setSrc(String src) {
     this.src = src;
   }
-
-  public String getHtml() {
-    return html;
-  }
-
-  public void setHtml(String html) {
-    this.html = html;
-  }
-
-  public String getClassName() {
-    return className;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
+//
+//  public String getHtml() {
+//    return html;
+//  }
+//
+//  public void setHtml(String html) {
+//    this.html = html;
+//  }
+//
+//  public String getClassName() {
+//    return className;
+//  }
+//
+//  public void setClassName(String className) {
+//    this.className = className;
+//  }
 
   public Integer getHeight() {
     return height;

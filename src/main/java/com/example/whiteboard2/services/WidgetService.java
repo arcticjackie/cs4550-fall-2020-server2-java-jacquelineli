@@ -123,8 +123,14 @@ public Widget createWidget(Widget widget) {
     widget.setText(newWidget.getText());
     widget.setType(newWidget.getType());
     widget.setSize(newWidget.getSize());
-    System.out.println("HEADING SIZE HELP: " + widget.getSize());
-
+    widget.setValue(newWidget.getValue());
+    widget.setStyle(newWidget.getStyle());
+    widget.setSrc(newWidget.getSrc());
+    widget.setHeight(newWidget.getHeight());
+    widget.setWidth(newWidget.getWidth());
+    widget.setCssClass(newWidget.getCssClass());
+    System.out.println("IMAGE SRC HELP: " + newWidget.getSrc());
+//
     //save
     return widgetRepository.save(widget);
   }
