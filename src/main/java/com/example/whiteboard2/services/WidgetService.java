@@ -125,7 +125,6 @@ public Widget createWidget(String tid, Widget widget) {
     widget.setHeight(newWidget.getHeight());
     widget.setWidth(newWidget.getWidth());
     widget.setCssClass(newWidget.getCssClass());
-    widget.setWidgetOrder(newWidget.getWidgetOrder());
     System.out.println("IMAGE SRC HELP: " + newWidget.getSrc());
 //
     //save
@@ -139,44 +138,134 @@ public Widget createWidget(String tid, Widget widget) {
     // find the widget that the move button up/down was clicked on, based on widgetId
     Widget widgetClickedOn = widgetRepository.findById(wid).get();
 
-    // get the widgetOrder from the database
-    int widgetClickedOnOrder = widgetClickedOn.getWidgetOrder();
-    System.out.println("widgetClickedOnOrder: " + widgetClickedOnOrder);
 
+//    // get the widgetOrder from the database
+//    int widgetClickedOnOrder = widgetClickedOn.getWidgetOrder();
+//    System.out.println("widgetClickedOnOrder: " + widgetClickedOnOrder);
 
-
-    // get the index of the value below / above the widget you are sw
-    int widgetOrderOfOther;
-    if (direction.equals("UP") && widgetClickedOnOrder > 0) {
-      widgetOrderOfOther = widgetClickedOnOrder - 1;
+    // get index of the widget that was clicked on
+    int indexClickedOn = -1;
+    for (int i = 0; i< findWidgetsForTopic(topicId).size(); i++) {
+      if (findWidgetsForTopic(topicId).get(i).getId() == widgetClickedOn.getId()) {
+        indexClickedOn = i;
+      }
     }
-    else if (direction.equals("DOWN") && widgetClickedOnOrder < findWidgetsForTopic(topicId).size()) {
-      widgetOrderOfOther = widgetClickedOnOrder + 1;
+
+    // get the index of the value below / above the widget you are swapping
+    int indexOfOtherWidget = -1;
+    if (direction.equals("UP") && indexClickedOn > 0) {
+      indexOfOtherWidget = indexClickedOn - 1;
+
+    }
+    else if (direction.equals("DOWN") && indexClickedOn < findWidgetsForTopic(topicId).size()) {
+      indexOfOtherWidget = indexClickedOn + 1;
     }
     else {
       // dont do anything bc u cant click swap up on the first one or swap down on the last one
       return findWidgetsForTopic(topicId);
     }
-    System.out.println("widgetOrderOfOther: " + widgetOrderOfOther);
+    int widOfOtherWidget = findWidgetsForTopic(topicId).get(indexOfOtherWidget).getId();
 
-    int indexOfWidgetToSwap = -1;
+    // get the index of the value below / above the widget you are sw
+//    int widgetOrderOfOther;
+//    if (direction.equals("UP") && widgetOrder > 0) {
+//      widgetOrderOfOther = widgetOrder - 1;
+//    }
+//    else if (direction.equals("DOWN") && widgetOrder < findWidgetsForTopic(topicId).size()) {
+//      widgetOrderOfOther = widgetOrder + 1;
+//    }
+//    else {
+//      // dont do anything bc u cant click swap up on the first one or swap down on the last one
+//      return findWidgetsForTopic(topicId);
+//    }
+//    System.out.println("widgetOrderOfOther: " + widgetOrderOfOther);
+//
+//    int indexOfWidgetToSwap = -1;
+//
+//    // find the widget whose order is one less / one more than the one that was clicked on
+//    for (int i = 0; i < findWidgetsForTopic(topicId).size(); i++) {
+//      if (findWidgetsForTopic(topicId).get(i).getWidgetOrder() == widgetOrderOfOther) {
+//        indexOfWidgetToSwap = i;
+//      }
+//    }
+    System.out.println("indexOfOtherWidget: " + indexOfOtherWidget);
 
-    // find the widget whose order is one less / one more than the one that was clicked on
-    for (int i = 0; i < findWidgetsForTopic(topicId).size(); i++) {
-      if (findWidgetsForTopic(topicId).get(i).getWidgetOrder() == widgetOrderOfOther) {
-        indexOfWidgetToSwap = i;
-      }
-    }
-    System.out.println("indexOfWidgetToSwap: " + indexOfWidgetToSwap);
+    //make a copy
+    String name = widgetClickedOn.getName();
+    String text = widgetClickedOn.getText();
+    String type = widgetClickedOn.getType();
+    Integer size = widgetClickedOn.getSize();
+    String value = widgetClickedOn.getValue();
+    String style = widgetClickedOn.getStyle();
+    String src = widgetClickedOn.getSrc();
+    Integer height = widgetClickedOn.getHeight();
+    Integer width = widgetClickedOn.getWidth();
+    String cssClass = widgetClickedOn.getCssClass();
 
     // swap all of the values (besides for the widgetOrder)
-    findWidgetsForTopic(topicId).get(indexOfWidgetToSwap).setWidgetOrder(widgetClickedOnOrder);
-    widgetClickedOn.setWidgetOrder(widgetOrderOfOther);
+//    findWidgetsForTopic(topicId).get(indexOfWidgetToSwap).setWidgetOrder(widgetOrder);
+//    widgetClickedOn.setWidgetOrder(widgetOrderOfOther);
+    updateWidget(wid, widgetRepository.findById(widOfOtherWidget).get());
+//    updateWidget(widOfOtherWidget, widgetClickedOn);
+    findWidgetById(widOfOtherWidget).setName(name);
+    findWidgetById(widOfOtherWidget).setText(text);
+    findWidgetById(widOfOtherWidget).setType(type);
+    findWidgetById(widOfOtherWidget).setSize(size);
+    findWidgetById(widOfOtherWidget).setValue(value);
+    findWidgetById(widOfOtherWidget).setStyle(style);
+    findWidgetById(widOfOtherWidget).setSrc(src);
+    findWidgetById(widOfOtherWidget).setHeight(height);
+    findWidgetById(widOfOtherWidget).setWidth(width);
+    findWidgetById(widOfOtherWidget).setCssClass(cssClass);
 
-    widgetRepository.save(findWidgetsForTopic(topicId).get(indexOfWidgetToSwap));
-    widgetRepository.save(widgetClickedOn);
+    widgetRepository.save(findWidgetById(widOfOtherWidget));
+
+//    widgetRepository.save(findWidgetsForTopic(topicId).get(indexOfWidgetToSwap));
+//    widgetRepository.save(widgetClickedOn);
 
     return findWidgetsForTopic(topicId);
+
+    // find the widget that the move button up/down was clicked on, based on widgetId
+//    Widget widgetClickedOn = widgetRepository.findById(wid).get();
+//
+//    // get the widgetOrder from the database
+//    int widgetClickedOnOrder = widgetClickedOn.getWidgetOrder();
+//    System.out.println("widgetClickedOnOrder: " + widgetClickedOnOrder);
+//
+//
+//
+//    // get the index of the value below / above the widget you are sw
+//    int widgetOrderOfOther;
+//    if (direction.equals("UP") && widgetClickedOnOrder > 0) {
+//      widgetOrderOfOther = widgetClickedOnOrder - 1;
+//    }
+//    else if (direction.equals("DOWN") && widgetClickedOnOrder < findWidgetsForTopic(topicId).size()) {
+//      widgetOrderOfOther = widgetClickedOnOrder + 1;
+//    }
+//    else {
+//      // dont do anything bc u cant click swap up on the first one or swap down on the last one
+//      return findWidgetsForTopic(topicId);
+//    }
+//    System.out.println("widgetOrderOfOther: " + widgetOrderOfOther);
+//
+//    int indexOfWidgetToSwap = -1;
+//
+//    // find the widget whose order is one less / one more than the one that was clicked on
+//    for (int i = 0; i < findWidgetsForTopic(topicId).size(); i++) {
+//      if (findWidgetsForTopic(topicId).get(i).getWidgetOrder() == widgetOrderOfOther) {
+//        indexOfWidgetToSwap = i;
+//      }
+//    }
+//    System.out.println("indexOfWidgetToSwap: " + indexOfWidgetToSwap);
+//
+//    // swap all of the values (besides for the widgetOrder)
+//    findWidgetsForTopic(topicId).get(indexOfWidgetToSwap).setWidgetOrder(widgetClickedOnOrder);
+//    widgetClickedOn.setWidgetOrder(widgetOrderOfOther);
+//
+//    widgetRepository.save(findWidgetsForTopic(topicId).get(indexOfWidgetToSwap));
+//    widgetRepository.save(widgetClickedOn);
+//
+//    return findWidgetsForTopic(topicId);
 
 //    Widget widget = widgetRepository.findById(wid).get();
 //
