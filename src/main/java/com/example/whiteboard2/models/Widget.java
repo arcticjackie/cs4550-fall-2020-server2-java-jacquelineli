@@ -31,7 +31,7 @@ public class Widget {
   private Integer size;
   // each widget will know whcih topic it belogs to
   private String topicId;
-  private String widgetOrder;
+  private Integer widgetOrder;
   private String cssClass;
   private String style;
   private String value;
@@ -143,11 +143,11 @@ public class Widget {
     this.width = width;
   }
 
-  public String getWidgetOrder() {
+  public Integer getWidgetOrder() {
     return widgetOrder;
   }
 
-  public void setWidgetOrder(String widgetOrder) {
+  public void setWidgetOrder(Integer widgetOrder) {
     this.widgetOrder = widgetOrder;
   }
 

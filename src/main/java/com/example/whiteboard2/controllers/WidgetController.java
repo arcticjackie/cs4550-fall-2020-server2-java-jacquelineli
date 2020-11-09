@@ -61,7 +61,7 @@ public class WidgetController {
           @PathVariable("topicId") String tid,
           @RequestBody Widget widget) {
     widget.setTopicId(tid);
-    return service.createWidget(widget);
+    return service.createWidget(tid, widget);
   }
 
 ////  @PostMapping("/api/topics/{topicId}/widgets")
@@ -89,12 +89,14 @@ public class WidgetController {
   }
 
 
-  @GetMapping("/api/widgets/{wid}/{direction}")
+  @GetMapping("api/topics/{topicId}/widgets/{wid}/order/{widgetOrder}/{direction}")
   public List<Widget> moveWidgetUp(
-          @PathVariable("wid") String widgetId,
+          @PathVariable("topicId") String topicId,
+          @PathVariable("wid") Integer wid,
+          @PathVariable("widgetOrder") Integer widgetOrder,
           @PathVariable("direction") String direction
   ) {
-    return service.moveWidgetUp(widgetId, direction);
+    return service.moveWidgetUp(widgetOrder, wid, topicId, direction);
 //    return 1;
   }
 
