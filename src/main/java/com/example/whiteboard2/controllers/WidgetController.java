@@ -89,14 +89,13 @@ public class WidgetController {
   }
 
 
-  @GetMapping("api/topics/{topicId}/widgets/{wid}/order/{widgetOrder}/{direction}")
+  @GetMapping("api/topics/{topicId}/widgets/{wid}/{direction}")
   public List<Widget> moveWidgetUp(
           @PathVariable("topicId") String topicId,
           @PathVariable("wid") Integer wid,
-          @PathVariable("widgetOrder") Integer widgetOrder,
           @PathVariable("direction") String direction
   ) {
-    return service.moveWidgetUp(widgetOrder, wid, topicId, direction);
+    return service.moveWidgetUp(wid, topicId, direction);
 //    return 1;
   }
 

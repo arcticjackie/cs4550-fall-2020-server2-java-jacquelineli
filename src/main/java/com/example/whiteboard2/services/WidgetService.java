@@ -133,7 +133,7 @@ public Widget createWidget(String tid, Widget widget) {
 
 //}
 
-  public List<Widget> moveWidgetUp(Integer widgetOrder, Integer wid, String topicId, String direction) {
+  public List<Widget> moveWidgetUp(Integer wid, String topicId, String direction) {
 
     // find the widget that the move button up/down was clicked on, based on widgetId
     Widget widgetClickedOn = widgetRepository.findById(wid).get();
